@@ -22,6 +22,8 @@ export class PdfGestorEmpenhos {
       return null;
     }
 
+    console.log("Renderizando PDF do empenho: ", empenho.empenho);
+
     try {
       const indices = [];
       for (let i = pages.begin; i <= pages.end; i++) {
@@ -60,6 +62,13 @@ export class PdfGestorEmpenhos {
       return null;
     }
 
+    console.log(
+      "Busccando empenho: ",
+      numberEmpenho,
+      "=> Encontrados",
+      empenhos.length
+    );
+
     return empenhos;
   }
 
@@ -74,6 +83,13 @@ export class PdfGestorEmpenhos {
       return null;
     }
 
+    console.log(
+      "O empenho começa na página: ",
+      beginEmpenho,
+      " e termina na página: ",
+      endEmpenho
+    );
+
     return {
       begin: beginEmpenho,
       end: endEmpenho,
@@ -83,6 +99,8 @@ export class PdfGestorEmpenhos {
   async _processCapasEmpenhos() {
     const numPages = this.pdfFile.numPages;
     let pageNum = 1;
+
+    console.log("Processando capas de empenhos no PDF:", this.pdfHandle.name);
 
     while (pageNum <= numPages) {
       const page = await this.pdfFile.getPage(pageNum);

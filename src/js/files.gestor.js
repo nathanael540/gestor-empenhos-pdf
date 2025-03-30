@@ -24,6 +24,9 @@ export class FilesGestorEmpenhos {
     const fileHandle = await dirHandle.getFileHandle(fileName, {
       create: true,
     });
+
+    console.log("Salvando novo arquivo PDF: ", fileName);
+
     const writable = await fileHandle.createWritable();
     await writable.write(empenhoPDF);
     await writable.close();

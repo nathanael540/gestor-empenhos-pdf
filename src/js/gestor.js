@@ -58,6 +58,7 @@ export class GestorEmpenhos {
       }
 
       let empenhosValores = this.seachValue.split("+");
+
       for (const empenhoValor of empenhosValores) {
         const empenhos = await this.pdfGestor.getEmpenhos(empenhoValor.trim());
         if (!empenhos) {
