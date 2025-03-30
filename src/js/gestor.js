@@ -33,20 +33,28 @@ export class GestorEmpenhos {
       return;
     }
 
+    const totalPDFs = this.filesGestor.totalPDFcount();
+
     let pdfOne = await this.filesGestor.getOnePdf();
     if (!pdfOne) {
       console.error("Nenhum arquivo PDF encontrado para processamento.");
       return;
     }
 
+    let pdfsProcessed = 0;
     while (pdfOne) {
+      pdfsProcessed++;
+      console.log(
+        `Processando arquivo PDF ${pdfsProcessed} de ${totalPDFs}...`
+      );
+
       //
       const pdfData = await this.pdfGestor.setup(pdfOne);
       if (!pdfData) {
         console.error(
           "Nenhum empenho no PDF! Verifique se o arquivo PDF está correto."
         );
-        return;
+        continue;
       }
 
       let empenhosValores = this.seachValue.split("+");
@@ -56,7 +64,7 @@ export class GestorEmpenhos {
           console.error(
             "Nenhum empenho encontrado! Verifique se o empenho existe."
           );
-          return;
+          continue;
         }
 
         for (const empenho of empenhos) {
@@ -65,7 +73,7 @@ export class GestorEmpenhos {
             console.error(
               "Nenhum empenho encontrado! Verifique se o empenho existe."
             );
-            return;
+            continue;
           }
 
           const saved = await this.filesGestor.saveEmpenhoPDF(
@@ -74,7 +82,7 @@ export class GestorEmpenhos {
           );
           if (!saved) {
             console.error("Erro ao salvar o arquivo PDF.");
-            return;
+            continue;
           }
         }
       }
@@ -87,6 +95,6 @@ export class GestorEmpenhos {
       }
     }
 
-    alert("Arquivos PDF salvos com sucesso!");
+    alert("Processamento concluído!");
   }
 }

@@ -31,6 +31,13 @@ export class FilesGestorEmpenhos {
     return true;
   }
 
+  totalPDFcount() {
+    if (!this.filesHandles || this.filesHandles.length === 0) {
+      return 0;
+    }
+    return this.filesHandles.length;
+  }
+
   hasMoreFiles() {
     if (!this.filesHandles || this.filesHandles.length === 0) {
       return false;

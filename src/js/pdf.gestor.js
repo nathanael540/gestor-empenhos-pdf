@@ -22,27 +22,32 @@ export class PdfGestorEmpenhos {
       return null;
     }
 
-    const indices = [];
-    for (let i = pages.begin; i <= pages.end; i++) {
-      indices.push(i - 1);
+    try {
+      const indices = [];
+      for (let i = pages.begin; i <= pages.end; i++) {
+        indices.push(i - 1);
+      }
+
+      const pdfDoc = await PDFLib.PDFDocument.load(
+        await this.pdfHandle.arrayBuffer()
+      );
+      const newPdfDoc = await PDFLib.PDFDocument.create();
+      const copiedPages = await newPdfDoc.copyPages(pdfDoc, indices);
+
+      copiedPages.forEach((page) => {
+        newPdfDoc.addPage(page);
+      });
+
+      const newPdfBytes = await newPdfDoc.save();
+
+      return new Blob([newPdfBytes], {
+        type: "application/pdf",
+        name: `${empenho.empenho} - ${empenho.parcela}.pdf`,
+      });
+    } catch (error) {
+      console.error("Erro ao renderizar o PDF: ", error);
+      return null;
     }
-
-    const pdfDoc = await PDFLib.PDFDocument.load(
-      await this.pdfHandle.arrayBuffer()
-    );
-    const newPdfDoc = await PDFLib.PDFDocument.create();
-    const copiedPages = await newPdfDoc.copyPages(pdfDoc, indices);
-
-    copiedPages.forEach((page) => {
-      newPdfDoc.addPage(page);
-    });
-
-    const newPdfBytes = await newPdfDoc.save();
-
-    return new Blob([newPdfBytes], {
-      type: "application/pdf",
-      name: `${empenho.empenho} - ${empenho.parcela}.pdf`,
-    });
   }
 
   async getEmpenhos(numberEmpenho) {
