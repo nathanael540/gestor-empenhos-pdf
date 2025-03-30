@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Empenho Gestor</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.0.375/pdf_viewer.min.css"
+      integrity="sha512-bt54/qzXTxutlNalAuK/V3dxe1T7ZDqeEYbZPle3G1kOH+K1zKlQE0ZOkdYVwPDxdCFrdLHwneslj7sA5APizQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.0.375/pdf.min.mjs"
+      type="module"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.4.0/dist/pdf-lib.min.js"></script>
+
+    <script src="./js/gestor.js" type="module"></script>
+
+    <script type="module">
+      import { GestorEmpenhos } from "./js/gestor.js";
+      window.gestor = new GestorEmpenhos();
+
+      jQuery(function ($) {
+        window.gestor.setup();
+      });
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Empenho Gestor</h1>
+            <p>Informe o empenho e clique em selecionar:</p>
+            <input type="number" id="value-to-search" />
+            <button id="select-files-btn">Selecionar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
